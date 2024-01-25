@@ -87,14 +87,13 @@ class SlideAbleTodoCard extends StatelessWidget {
         ],
       ),
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 3),
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border(
                 right: todo.status == TodoStatus.DONE
                     ? const BorderSide(width: 5, color: Colors.blueAccent)
                     : const BorderSide(width: 5, color: Colors.green),
-                left: const BorderSide(width: 2, color: Colors.redAccent))),
+                left: const BorderSide(width: 1, color: Colors.redAccent))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

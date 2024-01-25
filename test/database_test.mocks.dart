@@ -104,6 +104,13 @@ class MockTodoService extends _i1.Mock implements _i4.TodoService {
       ) as _i6.Future<_i3.Todo>);
 
   @override
+  _i6.Future<List<_i3.Todo>>? getTodosByStatus(_i3.TodoStatus? status) =>
+      (super.noSuchMethod(Invocation.method(
+        #getTodosByStatus,
+        [status],
+      )) as _i6.Future<List<_i3.Todo>>?);
+
+  @override
   _i6.Future<_i3.Todo?> getTodo(int? id) => (super.noSuchMethod(
         Invocation.method(
           #getTodo,

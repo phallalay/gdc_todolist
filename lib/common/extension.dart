@@ -40,12 +40,14 @@ extension BuildContextExtension on BuildContext {
                 children: <Widget>[
                   const Text('Title'),
                   CupertinoTextField(
+                    key: const Key('update_todo_title'),
                     controller: todoTitleController,
                     placeholder: 'Todo...',
                   ),
                   const SizedBox(height: 10),
                   const Text('Description'),
                   CupertinoTextField(
+                    key: const Key('update_todo_description'),
                     textAlignVertical: TextAlignVertical.top,
                     maxLines: 4,
                     controller: toDescriptionController,

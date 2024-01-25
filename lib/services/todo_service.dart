@@ -10,15 +10,15 @@ class TodoService {
   Future<Todo?> insertTodo(Todo todo) async {
     db = (await DBService().database)!;
 
-    todo.id = await db?.insert(tableName, todo.toMap());
+    todo.id = await db.insert(tableName, todo.toMap());
     return todo;
   }
 
   Future<Todo> updateTodo(Todo todo) async {
     db = (await DBService().database)!;
 
-    todo.id = await db?.update(tableName, todo.toMap(),
-        where: 'id = ?', whereArgs: [todo.id]);
+    todo.id = await db
+        .update(tableName, todo.toMap(), where: 'id = ?', whereArgs: [todo.id]);
     return todo;
   }
 
@@ -28,7 +28,7 @@ class TodoService {
     List<Todo>? todos = <Todo>[];
 
     final List<Map<String, dynamic>> todoData =
-        await db!.query(tableName, orderBy: 'updated_at DESC');
+        await db.query(tableName, orderBy: 'updated_at DESC');
 
     if (todoData.isNotEmpty) {
       todos = List<Todo>.from(todoData.map((i) => Todo.fromDB(i)));
@@ -42,7 +42,7 @@ class TodoService {
 
     List<Todo>? todos = <Todo>[];
 
-    final List<Map<String, dynamic>> todoData = await db!.query(tableName,
+    final List<Map<String, dynamic>> todoData = await db.query(tableName,
         orderBy: 'updated_at DESC',
         where: 'status = ?',
         whereArgs: [status.index]);
@@ -57,9 +57,9 @@ class TodoService {
   Future<Todo?> getTodo(int id) async {
     db = (await DBService().database)!;
 
-    final List<Map<String, Object?>>? todoData =
-        await db?.query(tableName, where: '$id = ?', whereArgs: [id]);
-    if (todoData!.isNotEmpty) {
+    final List<Map<String, Object?>> todoData =
+        await db.query(tableName, where: '$id = ?', whereArgs: [id]);
+    if (todoData.isNotEmpty) {
       return Todo.fromDB(todoData.first);
     }
     return null;

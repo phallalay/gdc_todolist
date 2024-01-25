@@ -22,9 +22,9 @@ class _MainPage extends State<MainPage> {
   late TextEditingController toDescriptionController;
 
   var containerKey = GlobalKey();
-  var tapPosition = const Offset(0, 0);
 
   var currentMenuIndex = 0;
+  bool invalidTitle = false;
 
   final List<Widget> _childPages = <Widget>[];
   final homePage = const HomePage();
@@ -95,6 +95,7 @@ class _MainPage extends State<MainPage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: appColors.primary(),
+        key: const Key('create_todo'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
@@ -132,14 +133,30 @@ class _MainPage extends State<MainPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      const Text('Title'),
+                      const Wrap(
+                        children: [
+                          Text('Title'),
+                          Text(
+                            '*',
+                            style: TextStyle(color: Colors.redAccent),
+                          )
+                        ],
+                      ),
                       CupertinoTextField(
+                        key: const Key('todo_title'),
                         controller: todoTitleController,
                         placeholder: 'Todo...',
                       ),
+                      invalidTitle
+                          ? const Text(
+                              'Title is required',
+                              style: TextStyle(color: Colors.redAccent),
+                            )
+                          : const SizedBox(),
                       const SizedBox(height: 10),
                       const Text('Description'),
                       CupertinoTextField(
+                        key: const Key('todo_description'),
                         textAlignVertical: TextAlignVertical.top,
                         maxLines: 4,
                         controller: toDescriptionController,
@@ -165,6 +182,15 @@ class _MainPage extends State<MainPage> {
                                         appColors.primary())),
                             child: const Text('Create'),
                             onPressed: () async {
+                              if (todoTitleController.text.isEmpty) {
+                                invalidTitle = true;
+                                const snackBar = SnackBar(
+                                  content: Text("Todo title is required"),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                return;
+                              }
                               String timeStamp =
                                   DateTime.now().toIso8601String();
                               final todo = Todo(
@@ -175,6 +201,8 @@ class _MainPage extends State<MainPage> {
                                   updatedAt: timeStamp);
                               await TodoService().insertTodo(todo);
 
+                              await Future.delayed(const Duration(seconds: 1));
+                              if (!mounted) return;
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       MainPage(currentIndex: 0)));
@@ -185,6 +213,9 @@ class _MainPage extends State<MainPage> {
 
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
+
+                              todoTitleController.clear();
+                              toDescriptionController.clear();
                             },
                           ),
                         ],

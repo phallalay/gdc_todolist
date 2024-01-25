@@ -1,6 +1,6 @@
 # todolist
 
-Features
+## Features
 - Create new Todo
 - Update Todo
 - Swipe right to left to mark as complete
@@ -10,5 +10,14 @@ Features
 - Complete Todo list page
 
 
+## Unit Test
 Generate Unit Test Service
-flutter packages pub run build_runner build --delete-conflicting-outputs
+```bash
+dart run build_runner build --delete-conflicting-outputs
+flutter test
+```
+
+## Integration Test
+```bash
+flutter test integration_test
+```

@@ -3,7 +3,6 @@ import 'package:gdc_todolist/constants/create_dotos_table.dart';
 import 'package:gdc_todolist/model/todo.dart';
 import 'package:gdc_todolist/services/todo_service.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'database_test.mocks.dart';

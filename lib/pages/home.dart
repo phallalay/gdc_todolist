@@ -57,24 +57,27 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
         backgroundColor: appColors.background(),
         body: Container(
-            padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
+            padding: const EdgeInsets.only(left: 5, right: 5),
             child: ListView.builder(
               itemCount: todos.length,
               itemBuilder: (BuildContext context, int index) {
                 final todo = todos[index];
-                return SlideAbleTodoCard(
-                  todo: todo,
-                  onClickEdit: (todo) async {
-                    print('editing${todo.title}');
-                    final updated = await context.editTodoDialog(todo);
-                    if (updated) {
-                      fetchTodos();
-                    }
-                  },
-                  onUpdated: () {
-                    fetchTodos();
-                  },
-                );
+                return Container(
+                    margin: EdgeInsets.only(
+                        bottom: index == (todos.length - 1) ? 40 : 5,
+                        top: index == 0 ? 10 : 0),
+                    child: SlideAbleTodoCard(
+                      todo: todo,
+                      onClickEdit: (todo) async {
+                        final updated = await context.editTodoDialog(todo);
+                        if (updated) {
+                          fetchTodos();
+                        }
+                      },
+                      onUpdated: () {
+                        fetchTodos();
+                      },
+                    ));
               },
             )));
   }
